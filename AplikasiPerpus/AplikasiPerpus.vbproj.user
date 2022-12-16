@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="ConfirmDelete.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormReview.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormTambah.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Perpustakaan.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="My Project\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
