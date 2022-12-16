@@ -1,8 +1,8 @@
 ﻿Public Class FormTambah
 
-    
+    Dim updating As Boolean = False
 
-    Sub New()
+    Sub New(Optional isUpdate As Boolean = False)
 
         ' This call is required by the designer.
         InitializeComponent()
@@ -11,6 +11,51 @@
         TxtTahun.Text = Date.Now.Year
         TxtStock.Text = 0
         Perpustakaan.dataBuku.GSPicture = ""
+
+        DateMasuk.Format = DateTimePickerFormat.Custom
+        DateMasuk.CustomFormat = "yyyy/MM/dd"
+
+        If isUpdate Then
+            LblTitle.Text = "Update Koleksi"
+            BtnTambah.Text = "Update Koleksi"
+
+            BookPic.Load(Perpustakaan.dataBuku.GSPicture)
+            BookPic.SizeMode = PictureBoxSizeMode.Zoom
+            TxtNama.Text = Perpustakaan.dataBuku.GSName
+            CbKoleksi.SelectedItem() = Perpustakaan.dataBuku.GSJenis
+            RchDeskripsi.Text = Perpustakaan.dataBuku.GSDesc
+            TxtPenerbit.Text = Perpustakaan.dataBuku.GSPublisher
+            TxtTahun.Text = Perpustakaan.dataBuku.GSYear
+            TxtRak.Text = Perpustakaan.dataBuku.GSLocation
+            DateMasuk.Value = Perpustakaan.dataBuku.GSArriveDate
+            TxtStock.Text = Perpustakaan.dataBuku.GSStock
+
+            If String.Compare(Perpustakaan.dataBuku.GSLanguage, "Indonesia") = 0 Then
+                RdIndo.Checked = True
+            ElseIf String.Compare(Perpustakaan.dataBuku.GSLanguage, "Inggris") = 0 Then
+                RdInggris.Checked = True
+            End If
+
+            For Each kategoriItem In Perpustakaan.dataBuku.GetCategory
+                If String.Compare(kategoriItem, "Sains") = 0 Then
+                    ChkSains.Checked = True
+                End If
+                If String.Compare(kategoriItem, "Sosial") = 0 Then
+                    ChkSosial.Checked = True
+                End If
+                If String.Compare(kategoriItem, "Teknologi") = 0 Then
+                    ChkTekno.Checked = True
+                End If
+                If String.Compare(kategoriItem, "Budaya") = 0 Then
+                    ChkBudaya.Checked = True
+                End If
+            Next
+            Perpustakaan.dataBuku.resetCategory()
+
+            updating = True
+
+        End If
+
     End Sub
 
     Private Sub BtnGambar_Click(sender As Object, e As EventArgs) Handles BtnGambar.Click
@@ -20,8 +65,11 @@
             OpenFileDialog1.ShowDialog()
 
             BookPic.Load(OpenFileDialog1.FileName)
-            Perpustakaan.dataBuku.GSPicture = OpenFileDialog1.FileName
             BookPic.SizeMode = PictureBoxSizeMode.Zoom
+
+            Perpustakaan.dataBuku.GSPicture = OpenFileDialog1.FileName.ToString()
+            Perpustakaan.dataBuku.GSPicture = Perpustakaan.dataBuku.GSPicture.Replace("\", "/")
+
 
         Catch ex As Exception
             MessageBox.Show("Mohon Pilih Foto!")
@@ -38,7 +86,7 @@
         Perpustakaan.dataBuku.GSYear = TxtTahun.Text
         Perpustakaan.dataBuku.GSStock = Integer.Parse(TxtStock.Text)
         Perpustakaan.dataBuku.GSLocation = TxtRak.Text
-        Perpustakaan.dataBuku.GSArriveDate = DateMasuk.Value
+        Perpustakaan.dataBuku.GSArriveDate = DateMasuk.Value.ToString("yyyy/MM/dd")
 
         If RdInggris.Checked Then
             Perpustakaan.dataBuku.GSLanguage = "Inggris"
@@ -65,19 +113,37 @@
         Perpustakaan.dataBuku.AddCollection(Perpustakaan.dataBuku.GSName)
 
         Dim convertedKoleksi = Perpustakaan.dataBuku.ConverKoleksiToString(Perpustakaan.dataBuku.GetCategory)
-        Perpustakaan.dataBuku.AddKoleksiDataTable(Perpustakaan.dataBuku.GSPicture,
+        Dim review
+        If updating Then
+            Perpustakaan.dataBuku.UpdateDataKoleksiByIDDatabase(Perpustakaan.selecteTableKoleksi,
+                                                                Perpustakaan.dataBuku.GSPicture,
+                                                                Perpustakaan.dataBuku.GSName,
+                                                                Perpustakaan.dataBuku.GSJenis,
+                                                                Perpustakaan.dataBuku.GSPublisher,
+                                                                Perpustakaan.dataBuku.GSDesc,
+                                                                Perpustakaan.dataBuku.GSYear,
+                                                                Perpustakaan.dataBuku.GSLocation,
+                                                                Perpustakaan.dataBuku.GSArriveDate,
+                                                                Perpustakaan.dataBuku.GSStock,
+                                                                Perpustakaan.dataBuku.GSLanguage,
+                                                                convertedKoleksi)
+            review = New FormReview(Perpustakaan.dataBuku.GetDataKoleksiByID(Perpustakaan.selecteTableKoleksi))
+        Else
+            Perpustakaan.dataBuku.AddDataKoleksiDatabase(Perpustakaan.dataBuku.GSPicture,
                                                   Perpustakaan.dataBuku.GSName,
                                                   Perpustakaan.dataBuku.GSJenis,
                                                   Perpustakaan.dataBuku.GSPublisher,
-                                                  Perpustakaan.dataBuku.GSYear,
                                                   Perpustakaan.dataBuku.GSDesc,
+                                                  Perpustakaan.dataBuku.GSYear,
                                                   Perpustakaan.dataBuku.GSLocation,
                                                   Perpustakaan.dataBuku.GSArriveDate,
                                                   Perpustakaan.dataBuku.GSStock,
                                                   Perpustakaan.dataBuku.GSLanguage,
                                                   convertedKoleksi)
-        Dim review = New FormReview(Perpustakaan.dataBuku.getKoleksiDataTable(Perpustakaan.DataGridKoleksi.RowCount))
-        Perpustakaan.UpdateDataTableArrayList()
+            review = New FormReview(Perpustakaan.dataBuku.GetDataKoleksiByID(Perpustakaan.DataGridKoleksi.RowCount))
+
+        End If
+        'Perpustakaan.UpdateDataTableArrayList()
         review.Show()
         Me.Close()
     End Sub

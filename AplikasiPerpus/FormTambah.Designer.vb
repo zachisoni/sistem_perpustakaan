@@ -23,7 +23,7 @@ Partial Class FormTambah
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.BookPic = New System.Windows.Forms.PictureBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.LblTitle = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -66,15 +66,15 @@ Partial Class FormTambah
         Me.BookPic.TabIndex = 0
         Me.BookPic.TabStop = False
         '
-        'Label1
+        'LblTitle
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Label1.Location = New System.Drawing.Point(238, 9)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(149, 25)
-        Me.Label1.TabIndex = 1
-        Me.Label1.Text = "Tambah Koleksi"
+        Me.LblTitle.AutoSize = True
+        Me.LblTitle.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.LblTitle.Location = New System.Drawing.Point(220, 9)
+        Me.LblTitle.Name = "LblTitle"
+        Me.LblTitle.Size = New System.Drawing.Size(149, 25)
+        Me.LblTitle.TabIndex = 1
+        Me.LblTitle.Text = "Tambah Koleksi"
         '
         'Label2
         '
@@ -361,7 +361,7 @@ Partial Class FormTambah
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.LblTitle)
         Me.Controls.Add(Me.BookPic)
         Me.Name = "FormTambah"
         Me.Text = "FormTambah"
@@ -376,7 +376,7 @@ Partial Class FormTambah
     End Sub
 
     Friend WithEvents BookPic As PictureBox
-    Friend WithEvents Label1 As Label
+    Friend WithEvents LblTitle As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label

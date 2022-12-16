@@ -1,6 +1,8 @@
 ﻿Imports System.Text
+Imports MySql.Data.MySqlClient
 
 Public Class DataBuku
+
     Private bookName As String
     Private jenis As String
     Private bookDesc As String
@@ -14,6 +16,17 @@ Public Class DataBuku
     Private listCollection As New List(Of String)
     Private picture As String = ""
     Private koleksiDataTable As New ArrayList()
+
+    Private server As String = "localhost"
+    Private username As String = "root"
+    Private password As String = ""
+    Private database As String = "perpustakaan"
+
+    Private sqlQuery As String
+
+    Public Shared dbConn As New MySqlConnection
+    Public Shared sqlCommand As New MySqlCommand
+    Public Shared sqlRead As MySqlDataReader
 
     Public Property GSName() As String
         Get
@@ -187,6 +200,180 @@ Public Class DataBuku
 
         Dim listVal As List(Of String) = arr.ToList()
         Return listVal
+    End Function
+
+    Public Function GetDataKoleksiDatabase() As DataTable
+        Dim result As New DataTable
+
+        dbConn.ConnectionString = "server =" + server + ";" + "user id=" + username + ";" _
+                                  + "password=" + password + ";" + "database =" + database
+        dbConn.Open()
+        sqlCommand.Connection = dbConn
+        sqlCommand.CommandText = "SELECT id_koleksi AS 'ID',
+                                  nama_koleksi AS 'Nama Koleksi',
+                                  jenis_koleksi as 'Jenis Koleksi',
+                                  penerbit as 'Penerbit', 
+                                  tahun_terbit as 'Tahun Terbit',
+                                  tanggal_masuk_koleksi as 'Tanggal Masuk',
+                                  lokasi as 'Lokasi Rak',
+                                  stock as 'Stock',
+                                  bahasa as 'Bahasa'
+                                  FROM koleksi;"
+        sqlRead = sqlCommand.ExecuteReader
+
+        result.Load(sqlRead)
+        sqlRead.Close()
+        dbConn.Close()
+        Return result
+
+    End Function
+
+    Public Function AddDataKoleksiDatabase(dir_gambar As String,
+                                           nama_koleksi As String,
+                                           jenis_koleksi As String,
+                                           penerbit_koleksi As String,
+                                           deskripsi_koleksi As String,
+                                           tahun_terbit As String,
+                                           lokasi_rak As String,
+                                           tanggal_masuk_koleksi As Date,
+                                           stock_koleksi As Integer,
+                                           bahasa_koleksi As String,
+                                           ketegori_koleksi As String)
+        dbConn.ConnectionString = "server =" + server + ";" + "user id=" + username + ";" _
+                                  + "password=" + password + ";" + "database =" + database
+        Try
+            dbConn.Open()
+            sqlCommand.Connection = dbConn
+            sqlQuery = "INSERT INTO koleksi(nama_koleksi, dir_gambar, 
+                        deskripsi, penerbit, jenis_koleksi, 
+                        tahun_terbit, lokasi, tanggal_masuk_koleksi,
+                        stock, bahasa, kategori) VALUE('" _
+            & nama_koleksi & "', '" _
+            & dir_gambar & "', '" _
+            & deskripsi_koleksi & "', '" _
+            & penerbit_koleksi & "', '" _
+            & jenis_koleksi & "', '" _
+            & tahun_terbit & "', '" _
+            & lokasi_rak & "', '" _
+            & tanggal_masuk_koleksi.ToString("yyyy/MM/dd") & "', " _
+            & stock_koleksi & ", '" _
+            & bahasa_koleksi & "', '" _
+            & ketegori_koleksi & "');"
+
+            sqlCommand = New MySqlCommand(sqlQuery, dbConn)
+            sqlRead = sqlCommand.ExecuteReader
+            dbConn.Close()
+
+            sqlRead.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Return ex.Message
+        Finally
+            dbConn.Dispose()
+        End Try
+    End Function
+
+    Public Function GetDataKoleksiByID(ID As Integer) As List(Of String)
+        Dim result As New List(Of String)
+        dbConn.ConnectionString = "server =" + server + ";" + "user id=" + username + ";" _
+                                  + "password=" + password + ";" + "database =" + database
+
+        dbConn.Open()
+        sqlCommand.Connection = dbConn
+        sqlCommand.CommandText = "SELECT nama_koleksi, dir_gambar,
+                                  deskripsi, penerbit, jenis_koleksi,
+                                  tahun_terbit, lokasi,
+                                  tanggal_masuk_koleksi,
+                                  stock, bahasa, kategori
+                                  FROM koleksi 
+                                  WHERE id_koleksi=" & ID & ";"
+
+        sqlRead = sqlCommand.ExecuteReader
+
+        While sqlRead.Read
+            Dim i = 0
+            While i < 11
+                result.Add(sqlRead.GetString(i).ToString())
+                i += 1
+            End While
+        End While
+
+        sqlRead.Close()
+        dbConn.Close()
+        Return result
+
+    End Function
+
+    Public Function UpdateDataKoleksiByIDDatabase(ID As Integer,
+                                                  dir_gambar As String,
+                                                  nama_koleksi As String,
+                                                  jenis_koleksi As String,
+                                                  penerbit_koleksi As String,
+                                                  deskripsi_koleksi As String,
+                                                  tahun_terbit As String,
+                                                  lokasi_rak As String,
+                                                  tanggal_masuk As Date,
+                                                  stock_koleksi As Integer,
+                                                  bahasa_koleksi As String,
+                                                  kategori_koleksi As String)
+
+        dbConn.ConnectionString = "server =" + server + ";user id=" + username + ";password=" _
+                                  + password + ";database =" + database
+        Try
+            dbConn.Open()
+            sqlCommand.Connection = dbConn
+            sqlQuery = "UPDATE koleksi SET " &
+                      "nama_koleksi='" & nama_koleksi & "', " &
+                      "dir_gambar='" & dir_gambar & "'," &
+                      "deskripsi='" & deskripsi_koleksi & "', " &
+                      "penerbit='" & penerbit_koleksi & "', " &
+                      "jenis_koleksi='" & jenis_koleksi & "', " &
+                      "tahun_terbit='" & tahun_terbit & "', " &
+                      "lokasi='" & lokasi_rak & "', " &
+                      "tanggal_masuk='" & tanggal_masuk.ToString("yyyy/MM/dd") & "', " &
+                      "stcok=" & stock_koleksi & "," &
+                      "bahasa='" & bahasa_koleksi & "', " &
+                      "kategori='" & kategori_koleksi & "' " &
+                      "WHERE id_koleksi=" & ID & ";"
+            sqlCommand = New MySqlCommand(sqlQuery, dbConn)
+            sqlRead = sqlCommand.ExecuteReader
+            dbConn.Close()
+            sqlRead.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Return ex.Message
+
+        Finally
+            dbConn.Dispose()
+
+        End Try
+    End Function
+
+
+    Public Function DeleteDataKoleksiByIDDatabase(ID As Integer)
+        dbConn.ConnectionString = "server =" + server + ";user id =" + username _
+                                  + ";password =" + password + ";database =" + database
+        Try
+            dbConn.Open()
+            sqlCommand.Connection = dbConn
+            sqlQuery = "DELETE FROM koleksi WHERE id_koleksi='" & ID & "';"
+
+            Debug.WriteLine(sqlQuery)
+            sqlCommand = New MySqlCommand(sqlQuery, dbConn)
+            sqlRead = sqlCommand.ExecuteReader
+            dbConn.Close()
+
+            sqlRead.Close()
+            dbConn.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.Message)
+            Return ex.Message
+        Finally
+            dbConn.Dispose()
+        End Try
     End Function
 
 End Class

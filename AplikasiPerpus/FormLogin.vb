@@ -1,5 +1,6 @@
 ﻿Public Class FormLogin
-    Private userClass As UserClass
+    Public Shared userClass As UserClass
+    Public Shared perpustakaan As Perpustakaan
 
     Sub New()
 
@@ -7,6 +8,7 @@
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
+        perpustakaan = New Perpustakaan()
         userClass = New UserClass()
     End Sub
 
@@ -17,8 +19,12 @@
 
             Dim authstatus As Boolean = userClass.CheckAuth(plainUsername, plainPassword)
 
-            If authstatus Then
-                Perpustakaan.Show()
+            Dim data_user As List(Of String) = userClass.CheckAuthDatabase(plainUsername, plainPassword)
+
+            If data_user.Count > 0 Then
+                userClass.SetUsername = data_user(1)
+                perpustakaan.Show()
+                Me.Hide()
             Else
                 MessageBox.Show("Password dan Username tidak sesuai")
             End If

@@ -8,7 +8,8 @@
         Next
         If TxtUsername.Text <> "" And TxtPassword.Text <> "" And dobleUsername = "" Then
             'Dim encryptedPass = FormLogin.getuserClass.EncryptData(TxtPassword.Text)
-            FormLogin.getuserClass.addUser(TxtUsername.Text, TxtPassword.Text)
+            'FormLogin.getuserClass.addUser(TxtUsername.Text, TxtPassword.Text)
+            FormLogin.userClass.AddUsesDatabase(TxtUsername.Text, TxtPassword.Text)
             Me.Close()
         ElseIf dobleUsername <> "" Then
             MessageBox.Show("Nama Pengguna sudah dipakai")

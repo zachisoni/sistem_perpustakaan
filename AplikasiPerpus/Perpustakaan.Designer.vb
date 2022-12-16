@@ -30,10 +30,8 @@ Partial Class Perpustakaan
         Me.BtnTambah = New System.Windows.Forms.Button()
         Me.BtnDetail = New System.Windows.Forms.Button()
         Me.DataGridKoleksi = New System.Windows.Forms.DataGridView()
-        Me.namaKoleksi = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.jenis = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.penerbit = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.tahun = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.ListBoxKoleksi = New System.Windows.Forms.ListBox()
+        Me.BtnUpdate = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.DataGridKoleksi, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -59,7 +57,7 @@ Partial Class Perpustakaan
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.KoleksiToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(469, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(624, 24)
         Me.MenuStrip1.TabIndex = 3
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -100,7 +98,7 @@ Partial Class Perpustakaan
         '
         'BtnDetail
         '
-        Me.BtnDetail.Location = New System.Drawing.Point(382, 45)
+        Me.BtnDetail.Location = New System.Drawing.Point(537, 46)
         Me.BtnDetail.Name = "BtnDetail"
         Me.BtnDetail.Size = New System.Drawing.Size(75, 23)
         Me.BtnDetail.TabIndex = 5
@@ -112,39 +110,38 @@ Partial Class Perpustakaan
         Me.DataGridKoleksi.AllowUserToAddRows = False
         Me.DataGridKoleksi.AllowUserToDeleteRows = False
         Me.DataGridKoleksi.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridKoleksi.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.namaKoleksi, Me.jenis, Me.penerbit, Me.tahun})
-        Me.DataGridKoleksi.Location = New System.Drawing.Point(13, 75)
+        Me.DataGridKoleksi.Location = New System.Drawing.Point(189, 75)
         Me.DataGridKoleksi.Name = "DataGridKoleksi"
         Me.DataGridKoleksi.RowTemplate.Height = 25
-        Me.DataGridKoleksi.Size = New System.Drawing.Size(444, 301)
+        Me.DataGridKoleksi.Size = New System.Drawing.Size(423, 301)
         Me.DataGridKoleksi.TabIndex = 6
         '
-        'namaKoleksi
+        'ListBoxKoleksi
         '
-        Me.namaKoleksi.HeaderText = "Nama Koleksi"
-        Me.namaKoleksi.Name = "namaKoleksi"
+        Me.ListBoxKoleksi.FormattingEnabled = True
+        Me.ListBoxKoleksi.ItemHeight = 15
+        Me.ListBoxKoleksi.Location = New System.Drawing.Point(12, 74)
+        Me.ListBoxKoleksi.Name = "ListBoxKoleksi"
+        Me.ListBoxKoleksi.Size = New System.Drawing.Size(171, 304)
+        Me.ListBoxKoleksi.TabIndex = 7
         '
-        'jenis
+        'BtnUpdate
         '
-        Me.jenis.HeaderText = "Jenis Koleksi"
-        Me.jenis.Name = "jenis"
-        '
-        'penerbit
-        '
-        Me.penerbit.HeaderText = "Penerbit"
-        Me.penerbit.Name = "penerbit"
-        '
-        'tahun
-        '
-        Me.tahun.HeaderText = "Tahun Terbit"
-        Me.tahun.Name = "tahun"
+        Me.BtnUpdate.Location = New System.Drawing.Point(456, 45)
+        Me.BtnUpdate.Name = "BtnUpdate"
+        Me.BtnUpdate.Size = New System.Drawing.Size(75, 23)
+        Me.BtnUpdate.TabIndex = 8
+        Me.BtnUpdate.Text = "Update"
+        Me.BtnUpdate.UseVisualStyleBackColor = True
         '
         'Perpustakaan
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.LightCyan
-        Me.ClientSize = New System.Drawing.Size(469, 388)
+        Me.ClientSize = New System.Drawing.Size(624, 388)
+        Me.Controls.Add(Me.BtnUpdate)
+        Me.Controls.Add(Me.ListBoxKoleksi)
         Me.Controls.Add(Me.DataGridKoleksi)
         Me.Controls.Add(Me.BtnDetail)
         Me.Controls.Add(Me.BtnTambah)
@@ -168,8 +165,6 @@ Partial Class Perpustakaan
     Friend WithEvents BtnTambah As Button
     Friend WithEvents BtnDetail As Button
     Friend WithEvents DataGridKoleksi As DataGridView
-    Friend WithEvents namaKoleksi As DataGridViewTextBoxColumn
-    Friend WithEvents jenis As DataGridViewTextBoxColumn
-    Friend WithEvents penerbit As DataGridViewTextBoxColumn
-    Friend WithEvents tahun As DataGridViewTextBoxColumn
+    Friend WithEvents ListBoxKoleksi As ListBox
+    Friend WithEvents BtnUpdate As Button
 End Class

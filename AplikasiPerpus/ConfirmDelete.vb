@@ -14,8 +14,9 @@
     End Sub
 
     Private Sub BtnHapus_Click(sender As Object, e As EventArgs) Handles BtnHapus.Click
-        Perpustakaan.HapusKoleksi()
-        Perpustakaan.UpdateDataTableArrayList()
+        'Perpustakaan.HapusKoleksi()
+        Perpustakaan.dataBuku.DeleteDataKoleksiByIDDatabase(Perpustakaan.selecteTableKoleksi)
+        'Perpustakaan.UpdateDataTableArrayList()
         Me.Close()
     End Sub
 End Class

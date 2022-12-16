@@ -1,32 +1,29 @@
 ﻿Public Class FormReview
 
-    Sub New(book As String())
+    Sub New(book As List(Of String))
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        If book(4) <> "" And book(8) <> "" Then
-            LblNama.Text = book(1)
-            LblJenis.Text = book(2)
-            LblPenerbit.Text = book(3)
-            LblTahun.Text = book(4)
-            LblDeskripsi.Text = book(5)
-            LblRak.Text = book(6)
-            LblTglMasuk.Text = book(7)
-            LblStok.Text = book(8)
-            LblBahasa.Text = book(9)
+        LblNama.Text = book.Item(0)
+        LblDeskripsi.Text = book.Item(2)
+        LblPenerbit.Text = book.Item(3)
+        LblJenis.Text = book.Item(4)
+        LblTahun.Text = book.Item(5)
+        LblRak.Text = book.Item(6)
+        LblTglMasuk.Text = book.Item(7)
+        LblStok.Text = book.Item(8)
+        LblBahasa.Text = book.Item(9)
 
-            Dim kategori_list = Perpustakaan.dataBuku.ConvertStringToKoleksi(book(10))
+        Dim kategori_list = Perpustakaan.dataBuku.ConvertStringToKoleksi(book.Item(9))
 
-            For Each category In kategori_list
-                ListBoxKategori.Items.Add(category)
-            Next
-            If book(0) IsNot "" Then
-                BookPic.Load(book(0))
-                BookPic.SizeMode = PictureBoxSizeMode.Zoom
-            End If
-
+        For Each category In kategori_list
+            ListBoxKategori.Items.Add(category)
+        Next
+        If book(1) IsNot "" Then
+            BookPic.Load(book.Item(1))
+            BookPic.SizeMode = PictureBoxSizeMode.Zoom
         End If
 
     End Sub
